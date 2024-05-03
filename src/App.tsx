@@ -3,13 +3,18 @@ import logo from './logo.svg';
 import './App.css';
 import SiteRouter from './router/intex';
 import Header from './components/header';
+import { Container } from 'react-bootstrap';
 
 function App() {
   return (
     <>
-      <Header/>
-      <div>is root here</div>
-      <SiteRouter/>
+    <div className='wrapper'>
+      <div className='contentWrapper'>
+        <Header/>
+        <SiteRouter/>
+      </div>
+      {/* footer */}
+    </div>
     </>
   );
 }
