@@ -1,6 +1,10 @@
 import React, {useState, useEffect} from "react";
 import { Stack, Badge } from "react-bootstrap";
-import { kindGET, Kind } from "../../api/callAPI";
+import { apiGET, Kind } from "../../api/callAPI";
+
+type KindProp = {
+    up_kind_cd : string
+}
 
 const KindComponent = () => {
     const up_kind_cd_list = [
@@ -25,19 +29,23 @@ const KindComponent = () => {
     }
 
     useEffect(() => {
-        const data = kindGET(upKindCode);
-        data.then((res)=>{
-            SetKind(res);
+        const data = apiGET<Kind,KindProp>('kind', {up_kind_cd : upKindCode});
+        data.then((res) => {
+            SetKind(res)
         })
+        // const data = kindGET(upKindCode);
+        // data.then((res)=>{
+        //     SetKind(res);
+        // })
     }, [upKindCode]);
 
     return(
         <>
         <Stack direction="horizontal" gap={2} className="overflow-auto flex-wrap">
         {
-            up_kind_cd_list?.map((res)=>{
+            up_kind_cd_list?.map((res, index)=>{
                 return(
-                    <Badge bg="primary" pill onClick={OnClickUpKind} data-id={res.up_kind_cd}>{res.upknm}</Badge>
+                    <Badge bg="primary" pill onClick={OnClickUpKind} data-id={res.up_kind_cd} key={index}>{res.upknm}</Badge>
                 )
             })
         }
@@ -45,10 +53,10 @@ const KindComponent = () => {
         </Stack>
         <Stack direction="horizontal" gap={2} className="overflow-auto flex-wrap">
         {
-            kind?.map((res)=>{
+            kind?.map((res, index)=>{
                 return(
                     // <div data-id={res.kindCd}>{res.knm}</div>
-                    <Badge bg="secondary" pill data-id={res.kindCd}>{res.knm}</Badge>
+                    <Badge bg="secondary" pill onClick={OnClickKind} data-id={res.kindCd} key={index}>{res.knm}</Badge>
                 )
             })
         }
