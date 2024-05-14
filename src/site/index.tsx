@@ -4,6 +4,7 @@ import { Badge, Stack, Container } from "react-bootstrap";
 import SidoComponent from "./find/sido";
 import SigunguComponent from "./find/sigungu";
 import KindComponent from "./find/kind";
+import AbandonmentPublicComponent from "./find/abandonmentPublic"
 
 
 const Main = () => {
@@ -14,6 +15,7 @@ const Main = () => {
                 <SigunguComponent/>
             </SidoComponent>
             <KindComponent/>
+            <AbandonmentPublicComponent/>
         </>
     )
 }
