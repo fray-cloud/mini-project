@@ -1,9 +1,6 @@
-import { encoding, decoding } from "./key"
-import axios, { AxiosResponse } from 'axios';
-const endPoint=`http://apis.data.go.kr/1543061/abandonmentPublicSrvc`
-const localEndPoint = `http://localhost:8000`
-const frontPoint=`localhost:3000`
+import axios from 'axios';
 
+const localEndPoint = `http://localhost:8000`
 
 /**
  ** 공공데이터 포털 에러코드   
@@ -28,7 +25,7 @@ const frontPoint=`localhost:3000`
  * 32 : UNREGISTERED IP ERROR.    
 */
  
-type defaultResponse<T> = {
+export type defaultResponse<T> = {
     response : {
         body : {
             items : {
@@ -47,32 +44,11 @@ type defaultResponse<T> = {
     }
 }
 
-export const apiGET = async <T, U extends {}>(service : string, args : U) : Promise<T[]> => {
-    const result = await axios.get<defaultResponse<T[]>>(`${localEndPoint}/${service}`, {params : args});
-    return result.data.response.body.items.item;
-}
 
 export type Sido = {
     orgCd : string, // 시도 코드
     orgdownNm : string //시도명
 }
-
-
-
-// export const sidoGET = async (numOfRows=20, type='json') : Promise<Sido[]> => {
-//     const result = await axios.get<defaultResponse<Sido[]>>(`${endPoint}/sido?serviceKey=${encoding}&numOfRows=${numOfRows}&_type=${type}`)
-    
-//     if (result.data.response) {
-//         return result.data.response.body.items.item;
-//     }
-//     else{
-//         const error = [{
-//             orgCd : "error", // 시도 코드
-//             orgdownNm : "서버 오류" //시도명
-//         }]
-//         return error
-//     }
-// }
 
 export type Sigungu = {
     uprCd : string, // 상위 시도 코드
@@ -80,56 +56,10 @@ export type Sigungu = {
     orgdownNm : string //시군구명
 }
 
-// export const sigunguGET = async (upr_cd : string, type='json') : Promise<Sigungu[]> => {
-//     console.log(`sigungu update ${upr_cd}`);
-//     const result = await axios.get<defaultResponse<Sigungu[]>>(`${endPoint}/sigungu?serviceKey=${encoding}&upr_cd=${upr_cd}&_type=${type}`)
-//     if (result.data.response) {
-//         if(result.data.response.header.resultCode == "11") {
-//             const noData = [{
-//                 uprCd : "nodata", // 상위 시도 코드
-//                 orgCd : "nodata", // 시군구 코드
-//                 orgdownNm : "데이터가 없습니다." //시군구명
-//             }]
-//             return noData;
-//         }
-//         return result.data.response.body.items.item;
-//     }
-//     else{
-//         const error = [{
-//             uprCd : "error", // 상위 시도 코드
-//             orgCd : "error", // 시군구 코드
-//             orgdownNm : "서버 오류" //시군구명
-//         }]
-//         return error;
-//     }
-// }
-
 export type Kind = {
     kindCd : string, // 품종코드
     knm : string // 품종명
 }
-
-// export const kindGET = async (up_kind_cd : string, type='json') : Promise<Kind[]> => {
-//     const result = await axios.get<defaultResponse<Kind[]>>(`${endPoint}/kind?serviceKey=${encoding}&up_kind_cd=${up_kind_cd}&_type=${type}`)
-//     if (result.data.response) {
-//         if(result.data.response.header.resultCode == "11") {
-//             const noData = [{
-//                 kindCd : "nodata",  // 품종코드
-//                 knm : "nodata", // 품종명
-//             }]
-//             return noData;
-//         }
-//         return result.data.response.body.items.item;
-//     }
-//     else{
-//         const error = [{
-//             kindCd : "error", // 상위 시도 코드
-//             knm : "error", // 시군구 코드
-//         }]
-//         return error;
-//     }
-// }
-
 
 export type AbandonmentPublic = {
     desertionNo : string, // 유기번호
@@ -155,23 +85,12 @@ export type AbandonmentPublic = {
     chargeNm : string, // 담당자
     officetel : string, // 담당자 연락처
     noticeComment : string, // 특이사항
+    numOfRows : string,
+    pageNo : string,
+    totalCount : string
 }
 
-// export const abandonmentPublicGET = async(
-//     bgnde="", // 유기날짜 시작일
-//     endde="", // 유기날짜 종료일
-//     upkind="", // 축종코드
-//     kind="", // 품종코드
-//     upr_cd="", // 시도코드
-//     org_cd="", // 시군구코드
-//     care_reg_no="", // 보호소번호
-//     state="", // 상태
-//     neuter_yn="", // 중성화여부
-//     pageNo="", // 페이지 번호
-//     numOfRows="", // 페이지당 보여줄 갯수
-//     type="json"
-// ) : Promise<AbandonmentPublic[]> => {
-//     const result = await axios.get<defaultResponse<AbandonmentPublic[]>>(
-//         `${endPoint}/abandonmentPublic?serviceKey=${encoding}&bgnde=${bgnde}&endde=${endde}&upkind=${upkind}&kind=${kind}&upr_cd=${upr_cd}&org_cd=${org_cd}&care_reg_no=${care_reg_no}&state=${state}&neuter_yn=${neuter_yn}&pageNo=${pageNo}&numOfRows=${numOfRows}&_type=${type}`
-//     )
-// }
+export const apiGET = async <T, U extends {}>(service : string, args : U) : Promise<defaultResponse<T[]>>=> {
+    const result = await axios.get<defaultResponse<T[]>>(`${localEndPoint}/${service}`, {params : args});
+    return result.data;
+}

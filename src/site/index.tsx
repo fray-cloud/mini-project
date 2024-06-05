@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
-// import { sidoGET, Sido, Sigungu, sigunguGET } from "../api/callAPI";
-import { Badge, Stack, Container } from "react-bootstrap";
-import SidoComponent from "./find/sido";
-import SigunguComponent from "./find/sigungu";
-import KindComponent from "./find/kind";
-import AbandonmentPublicComponent from "./find/abandonmentPublic"
-
+import AbandonmentPublic from "./abandonmentPublic";
 
 const Main = () => {
-
     return(
         <>
-            <SidoComponent>
+            {/* <SidoComponent>
                 <SigunguComponent/>
             </SidoComponent>
             <KindComponent/>
-            <AbandonmentPublicComponent/>
+            <AbandonmentPublicComponent>
+                <DetailAbandonmentPublic info={detail}>
+                </DetailAbandonmentPublic>
+            </AbandonmentPublicComponent> */}
+            <AbandonmentPublic/>
         </>
     )
 }
