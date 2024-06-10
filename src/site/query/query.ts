@@ -2,6 +2,8 @@ import { QueryFunctionContext, useInfiniteQuery, useQuery, useQueryClient } from
 import { Sido , Sigungu, Kind, apiGET, AbandonmentPublic, defaultResponse } from "../../api/callAPI"
 import dayjs, { Dayjs } from "dayjs";
 import AbandonmentPublicForm from "../abandonmentPublic/form";
+import { useFormContext } from "react-hook-form";
+import { useState } from "react";
 
 const initialDataForm = <T>(init : T) : defaultResponse<T[]> => {
     return {
@@ -37,6 +39,69 @@ export const useQuerySido = () => {
         queryInfo,
     };
 }
+
+// interface sidoCount extends Sido{
+//     count : number
+// }
+
+// export const useQuerySidoCount = () => {
+//     // const sidoCountList : sidoCount[] = [];
+//     const [sidoCountList, setSidoCountList] = useState<sidoCount[]>([]);
+//     // const sidoData = apiGET<Sido,{numOfRows? : number}>('sido', {numOfRows : 30});
+
+//     const qf = () => {
+//         const sidoData = apiGET<Sido,{numOfRows? : number}>('sido', {numOfRows : 30});
+//         sidoData.then((sido) => {
+//             sido.response.body.items.item.map((sidoItem) => {
+//                 const sidoAbandonmentCountList = apiGET<AbandonmentPublic,{upr_cd? : string}>('abandonmentPublic', {upr_cd : sidoItem.orgCd});
+//                 sidoAbandonmentCountList.then((res) => {
+//                     setSidoCountList((lastList) => [...lastList, {
+//                         orgCd : sidoItem.orgCd,
+//                         orgdownNm : sidoItem.orgdownNm,
+//                         count : res.response.body.totalCount?? 0
+//                     }]);
+//                     console.log('data :: ', sidoCountList);
+//                     // setSidoCountList(sidoCountList.concat({
+//                     //     orgCd : sidoItem.orgCd,
+//                     //     orgdownNm : sidoItem.orgdownNm,
+//                     //     count : res.response.body.totalCount?? 0
+//                     // }))
+//                     // sidoCountList.push({
+//                     //     orgCd : sidoItem.orgCd,
+//                     //     orgdownNm : sidoItem.orgdownNm,
+//                     //     count : res.response.body.totalCount?? 0
+//                     // });
+//                 });
+//             });
+//         });
+//         // data.response.body.items.item.map(async (res) => {
+//         //     const data = await apiGET<AbandonmentPublic,{upr_cd? : string}>('abandonmentPublic', {upr_cd : res.orgCd});
+//         //     sidoCountList.concat({
+//         //         orgCd : res.orgCd,
+//         //         orgdownNm : res.orgdownNm,
+//         //         count : data.response.body.totalCount?? 0
+//         //     })
+//         //     // setSidoCountList([...sidoCountList, {
+//         //     //     orgCd : res.orgCd,
+//         //     //     orgdownNm : res.orgdownNm,
+//         //     //     count : data.response.body.totalCount?? 0,
+//         //     // }])
+//         // });
+
+//         return sidoCountList;
+//     }
+
+//     const {data , ...queryInfo} = useQuery({
+//         queryKey : ['sidoCount'],
+//         queryFn : qf,
+//         // enabled : sidoCountList.length != 0,
+//     });
+
+//     return {
+//         data, 
+//         queryInfo,
+//     };
+// }
 
 export const useQuerySigungu = (upr_cd : string | undefined) => {
     const queryClient = useQueryClient();
@@ -203,16 +268,25 @@ type AbandonmentPublicProp = {
 export const useQueryAbandonment = (abandonment : AbandonmentPublicForm) => {
     const queryKey = 'abandonment';
     const queryClient = useQueryClient();
+    const formContext = useFormContext();
     const {data, ...queryInfo} = useInfiniteQuery({
-        queryKey : [queryKey, abandonment],
+        queryKey : [queryKey],
         queryFn : ({pageParam}) => {
-            return apiGET<AbandonmentPublic,AbandonmentPublicProp>('abandonmentPublic', {
-                ...abandonment,
-                bgnde : abandonment.bgnde?.format('YYYYMMDD'),
-                endde : abandonment.endde?.format('YYYYMMDD'),
-                pageNo : pageParam.toString(),
-                numOfRows : '10',
-            });
+            console.log(queryKey, "start");
+            if (formContext.formState.isSubmitSuccessful ||
+                formContext.formState.isSubmitted ||
+                formContext.formState.isSubmitting
+            ) {
+                console.log(queryKey, "if");
+                return apiGET<AbandonmentPublic,AbandonmentPublicProp>('abandonmentPublic', {
+                    ...abandonment,
+                    bgnde : abandonment.bgnde?.format('YYYYMMDD'),
+                    endde : abandonment.endde?.format('YYYYMMDD'),
+                    pageNo : pageParam.toString(),
+                    numOfRows : '10',
+                });
+            }
+            console.log(queryKey, "else");
         },
         initialPageParam : 1,
         getNextPageParam : (lastPage, allPages, lastPAgeParam) => {
@@ -221,7 +295,8 @@ export const useQueryAbandonment = (abandonment : AbandonmentPublicForm) => {
     })
 
     const update = (updateData : AbandonmentPublicForm) => {
-        queryClient.setQueryData([queryKey], updateData,);
+        // queryClient.setQueryData([queryKey]);
+        queryClient.fetchQuery({queryKey : [queryKey]});
     }
 
     return {

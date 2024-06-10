@@ -87,7 +87,7 @@ export type AbandonmentPublic = {
     noticeComment : string, // 특이사항
     numOfRows : string,
     pageNo : string,
-    totalCount : string
+    totalCount : number
 }
 
 export const apiGET = async <T, U extends {}>(service : string, args : U) : Promise<defaultResponse<T[]>>=> {
