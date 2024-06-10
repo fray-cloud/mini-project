@@ -27,7 +27,6 @@ const AbandonmentPublic = () => {
     return(
         <>
         <FormProvider {...methods}>
-            <Container className="fluid">
                 <Row>
                     <Col md={3} className="border rounded">
                         <AbandonmentPublicForm/>
@@ -36,7 +35,6 @@ const AbandonmentPublic = () => {
                         <AbandonmentPublicView/>
                     </Col>
                 </Row>
-            </Container>
         </FormProvider>
             
         </>

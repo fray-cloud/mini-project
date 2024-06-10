@@ -1,19 +1,14 @@
 import AbandonmentPublic from "./abandonmentPublic";
+import { Container } from "react-bootstrap";
 
-const Main = () => {
+const AbandonmentPublicSearch = () => {
     return(
         <>
-            {/* <SidoComponent>
-                <SigunguComponent/>
-            </SidoComponent>
-            <KindComponent/>
-            <AbandonmentPublicComponent>
-                <DetailAbandonmentPublic info={detail}>
-                </DetailAbandonmentPublic>
-            </AbandonmentPublicComponent> */}
-            <AbandonmentPublic/>
+            <Container className="fluid mt-5">
+                <AbandonmentPublic/>
+            </Container>
         </>
     )
 }
 
-export default Main;
+export default AbandonmentPublicSearch;

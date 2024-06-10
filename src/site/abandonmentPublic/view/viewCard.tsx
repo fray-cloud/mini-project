@@ -1,21 +1,18 @@
 import dayjs, { Dayjs } from "dayjs";
 import { AbandonmentPublic } from "../../../api/callAPI";
 import { Row, Col, Card, Badge } from "react-bootstrap";
+import { useState } from "react";
 
 
 const ViewCard = (
     props : {
         idx : number, 
         data : AbandonmentPublic, 
-        // onClick? : React.MouseEventHandler<HTMLElement>, 
         setModalShow? : React.Dispatch<React.SetStateAction<boolean>>,
         setDetailData? : React.Dispatch<React.SetStateAction<AbandonmentPublic | undefined>>,
     }) => {
     
-    const onClick = () => {
-        // props.setModalShow? props.setModalShow(true) : 
-        // props.setDetailData? props.setDetailData(props.data) :
-        // () => {}
+    const onClickHandlerCard = () => {
         if(props.setModalShow) {
             props.setModalShow(true);
         }
@@ -23,9 +20,19 @@ const ViewCard = (
             props.setDetailData(props.data);
         }
     }
+
+    const [isMouseOver, SetMouseOver] = useState(false);
+
+    const processStateColor = 
+        props.data.processState === "보호중" ? 
+        'success' : 
+        'secondary';
     
-    const processStateColor = props.data.processState === "보호중" ? "success" : "secondary";
-    const processStateRegexp = props.data.processState === "보호중" ? props.data.processState : "종료" 
+    // 종료(자연사, 종료, ...) 세부 사항 삭제하기 위한 데이터
+    const processStateRegexp = 
+        props.data.processState === "보호중" ? 
+        props.data.processState : 
+        "종료" ;
     const sexCdEmoji = 
         props.data.sexCd === "M" ? "♂️" : 
         props.data.sexCd === "F" ? "♀️" :
@@ -38,13 +45,17 @@ const ViewCard = (
     const startDate = dayjs(props.data.noticeSdt, 'YYYYMMDD');
     const endDate = dayjs(props.data.noticeEdt, 'YYYYMMDD');
     const dDay = endDate.diff(dayjs(), 'days');
+    
     return(
         <Col 
         key={props.idx}
         >
             <Card
-            border={processStateColor}
-            onClick={onClick}
+            bg={isMouseOver ? processStateColor : ""}
+            border="dark"
+            onClick={onClickHandlerCard}
+            onMouseOver={() => SetMouseOver(true)}
+            onMouseOut={() => SetMouseOver(false)}
             >
                 <Row xs={3} md={2}>
                     <Col>
@@ -60,7 +71,7 @@ const ViewCard = (
                             <Row xs={6} md={3}>
                                 <Col>
                                     <Badge
-                                    bg={processStateColor}
+                                    bg={processStateColor}  
                                     >
                                         {processStateRegexp}
                                     </Badge>

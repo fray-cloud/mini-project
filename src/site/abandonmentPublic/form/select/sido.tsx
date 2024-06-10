@@ -12,13 +12,20 @@ const SelectSido = () => {
         <Form.Group>
             <Form.Label>시도</Form.Label>
             <Form.Select {...register('upr_cd')} aria-label="시도">
+            <option
+                key={0}
+                value={-1}
+                >
+                지역을 선택하세요.
+                </option>
             {
                 queryInfo.isPending ? <span>Loading...</span> :
                 queryInfo.isFetching ? <span>Fetching...</span> :
+                
                 data?.response.body.items.item.map((res, index) => {
                     return(
                         <option
-                        key={index}
+                        key={index + 1}
                         value={res.orgCd}
                         >
                             {res.orgdownNm}

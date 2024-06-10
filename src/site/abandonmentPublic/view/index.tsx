@@ -19,9 +19,10 @@ const AbandonmentPublicView = () => {
 
     useEffect(() => {
         if (formState.isSubmitting) {
+            console.log('useEffect update');
             update(getValues());
         }
-    }, [trigger]);
+    }, [trigger()]);
 
     return(
         <>
@@ -43,13 +44,16 @@ const AbandonmentPublicView = () => {
                 </Row>
                 <Row xs={1} md={2} className="g-4">
                         {
+                            
                             data?.pages?.map((data, _) => (
-                                data?.response.body.items.item?.map((res, idx) => {
+                                data?.response.body.items.item?
+                                data?.response.body.items.item.map((res, idx) => {
                                     return(
                                             <ViewCard idx={idx} data={res} setModalShow={SetModalShow} setDetailData={SetDetailData} />
                                     )
                                     
-                                })
+                                }) :
+                                <div>데이터가 존재하지 않습니다.</div>
                             ))
                         }
                         
