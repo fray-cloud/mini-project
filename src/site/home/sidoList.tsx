@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import { apiGET, Sido, AbandonmentPublic } from "../../api/callAPI";
-// import { useQuerySidoCount } from "../query/query";
 
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
@@ -64,7 +63,6 @@ const SidoList = () => {
             sx={{ 
                 width: '100%',
                 maxWidth: 420,
-                height : '100%',
                 bgcolor: 'background.paper'
             }}
             subheader={

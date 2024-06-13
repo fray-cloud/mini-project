@@ -7,9 +7,14 @@ import StepIndicator from '@mui/joy/StepIndicator';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
 
-export default function VerticalExtraContentStepper() {
+const VerticalExtraContentStepper = ()  => {
   return (
-    <Stepper orientation="vertical">
+    <Stepper 
+    orientation="vertical"
+    sx={{
+      marginLeft : "20px"
+    }}
+    >
     <Typography>입양 절차</Typography>
       <Step
         indicator={
@@ -110,3 +115,5 @@ export default function VerticalExtraContentStepper() {
     </Stepper>
   );
 }
+
+export default VerticalExtraContentStepper;

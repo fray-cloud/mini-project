@@ -1,9 +1,9 @@
 import { QueryFunctionContext, useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Sido , Sigungu, Kind, apiGET, AbandonmentPublic, defaultResponse } from "../../api/callAPI"
 import dayjs, { Dayjs } from "dayjs";
-import AbandonmentPublicForm from "../abandonmentPublic/form";
+import {AbandonmentPublicForm} from "./form";
 import { useFormContext } from "react-hook-form";
-import { useState } from "react";
+
 
 const initialDataForm = <T>(init : T) : defaultResponse<T[]> => {
     return {
@@ -22,7 +22,6 @@ const initialDataForm = <T>(init : T) : defaultResponse<T[]> => {
     }
 }
 
-
 export const useQuerySido = () => {
     const qf = () => {
         const data = apiGET<Sido,{numOfRows? : number}>('sido', {numOfRows : 30});
@@ -39,69 +38,6 @@ export const useQuerySido = () => {
         queryInfo,
     };
 }
-
-// interface sidoCount extends Sido{
-//     count : number
-// }
-
-// export const useQuerySidoCount = () => {
-//     // const sidoCountList : sidoCount[] = [];
-//     const [sidoCountList, setSidoCountList] = useState<sidoCount[]>([]);
-//     // const sidoData = apiGET<Sido,{numOfRows? : number}>('sido', {numOfRows : 30});
-
-//     const qf = () => {
-//         const sidoData = apiGET<Sido,{numOfRows? : number}>('sido', {numOfRows : 30});
-//         sidoData.then((sido) => {
-//             sido.response.body.items.item.map((sidoItem) => {
-//                 const sidoAbandonmentCountList = apiGET<AbandonmentPublic,{upr_cd? : string}>('abandonmentPublic', {upr_cd : sidoItem.orgCd});
-//                 sidoAbandonmentCountList.then((res) => {
-//                     setSidoCountList((lastList) => [...lastList, {
-//                         orgCd : sidoItem.orgCd,
-//                         orgdownNm : sidoItem.orgdownNm,
-//                         count : res.response.body.totalCount?? 0
-//                     }]);
-//                     console.log('data :: ', sidoCountList);
-//                     // setSidoCountList(sidoCountList.concat({
-//                     //     orgCd : sidoItem.orgCd,
-//                     //     orgdownNm : sidoItem.orgdownNm,
-//                     //     count : res.response.body.totalCount?? 0
-//                     // }))
-//                     // sidoCountList.push({
-//                     //     orgCd : sidoItem.orgCd,
-//                     //     orgdownNm : sidoItem.orgdownNm,
-//                     //     count : res.response.body.totalCount?? 0
-//                     // });
-//                 });
-//             });
-//         });
-//         // data.response.body.items.item.map(async (res) => {
-//         //     const data = await apiGET<AbandonmentPublic,{upr_cd? : string}>('abandonmentPublic', {upr_cd : res.orgCd});
-//         //     sidoCountList.concat({
-//         //         orgCd : res.orgCd,
-//         //         orgdownNm : res.orgdownNm,
-//         //         count : data.response.body.totalCount?? 0
-//         //     })
-//         //     // setSidoCountList([...sidoCountList, {
-//         //     //     orgCd : res.orgCd,
-//         //     //     orgdownNm : res.orgdownNm,
-//         //     //     count : data.response.body.totalCount?? 0,
-//         //     // }])
-//         // });
-
-//         return sidoCountList;
-//     }
-
-//     const {data , ...queryInfo} = useQuery({
-//         queryKey : ['sidoCount'],
-//         queryFn : qf,
-//         // enabled : sidoCountList.length != 0,
-//     });
-
-//     return {
-//         data, 
-//         queryInfo,
-//     };
-// }
 
 export const useQuerySigungu = (upr_cd : string | undefined) => {
     const queryClient = useQueryClient();
@@ -132,11 +68,11 @@ export const useQuerySigungu = (upr_cd : string | undefined) => {
     const {data , ...queryInfo} = useQuery({
         queryKey : queryKey,
         queryFn : qf,
-        initialData : initialDataForm<Sigungu>({
-            uprCd : '-1',
-            orgCd : '-1',
-            orgdownNm : '시도를 선택하세요.'
-        }),
+        // initialData : initialDataForm<Sigungu>({
+        //     uprCd : '-1',
+        //     orgCd : '-1',
+        //     orgdownNm : '전체'
+        // }),
         enabled : !!upr_cd,
         
     });
@@ -155,6 +91,7 @@ type UpKind = {
 
 export const useQueryUpKind = () => {
     const defaultValues = [
+        {up_kind_cd : '-1', upknm : '전체', emoji : '전체'},
         {up_kind_cd : '417000', upknm : '개', emoji : '🐕'},
         {up_kind_cd : '422400', upknm : '고양이', emoji : '🐈'},
         {up_kind_cd : '429900', upknm : '기타', emoji : '🤨'},
@@ -194,10 +131,10 @@ export const useQueryKind = (kind : string | undefined) => {
     const {data , ...queryInfo} = useQuery({
         queryKey : queryKey,
         queryFn : qf,
-        initialData : initialDataForm<Kind>({
-            kindCd : '-1',
-            knm : '종류를 선택하세요.'
-        }),
+        // initialData : initialDataForm<Kind>({
+        //     kindCd : '-1',
+        //     knm : '종류를 선택하세요.'
+        // }),
         enabled : !!kind,
     });
 

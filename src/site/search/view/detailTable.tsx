@@ -1,4 +1,4 @@
-import { Image, Table } from "react-bootstrap";
+import { Table, AspectRatio } from "@mui/joy";
 import { AbandonmentPublic } from "../../../api/callAPI";
 import dayjs from "dayjs";
 
@@ -16,7 +16,9 @@ const DetailView = (
         }
     }
     return(
-        <Table bordered hover style={{fontSize : "10px"}}>
+        <Table
+        hoverRow
+        >
             <tbody>
                 <tr>
                     <td colSpan={1} style={{width : '70px'}}>유기번호</td>
@@ -76,7 +78,9 @@ const DetailView = (
                 </tr>
                 <tr>
                     <td colSpan={4}>
-                        <Image style={{width : "100%"}} src={props.data?.popfile}/>
+                    <AspectRatio>
+                        <img src={props.data?.popfile}/>
+                    </AspectRatio>
                     </td>
                 </tr>
                 <tr>

@@ -1,24 +1,29 @@
-import { Nav, Navbar, Container } from "react-bootstrap";
-import './header.css'
+import React, { useContext } from 'react';
+import { Breadcrumbs, Sheet, Link, Typography } from '@mui/joy';
+import PublicIcon from '@mui/icons-material/Public';
+
+import { RemoteContext } from '../App';
 
 const Header = () => {
-    return(
-        <Navbar collapseOnSelect className="navBar" bg="success" data-bs-theme="dark">
-            <Container>
-                <Navbar.Brand href="/">Home</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="navbarScroll">
-                <Nav 
-                    className="me-auto"
-                    defaultActiveKey="/"
-                >
-                    <Nav.Link href="/search">조회</Nav.Link>
-                    <Nav.Link href="#">즐겨찾기</Nav.Link>
-                </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
-    )
+    const context = useContext(RemoteContext);
+
+    return (
+        <Sheet 
+        color={context!.context[context!.selectIndex].color}
+        variant="soft" 
+        sx={{
+            height : '100%',
+            width : '100%'
+        }}
+        >
+            <Breadcrumbs separator="›" aria-label="breadcrumbs">
+                <Link color="neutral" href="/">
+                    <PublicIcon sx={{ mr: 0.5 }} />
+                    {context!.context[context!.selectIndex].name}
+                </Link>
+            </Breadcrumbs>
+        </Sheet>
+        )
 }
 
 export default Header;

@@ -1,25 +1,38 @@
-import { Container } from "react-bootstrap";
+import React from "react";
+import { Grid, Stack, Box } from "@mui/joy";
 import SidoList from "./sidoList";
-import { Col, Row } from "react-bootstrap";
 import VerticalExtraContentStepper from "./exampleBox";
 
 const Home = () => {
+
     return(
-        <>
-            <Container className="fluid mt-5">
-                <Row md={2}>
-                    <Col>
-                    <SidoList/>
-                    </Col>
-                    <Row>
-                        <VerticalExtraContentStepper/>
-                    </Row>
-                    
-                </Row>
-                
-                
-            </Container>
-        </>
+        <Stack
+        spacing={2}
+        direction={{xs : "column", md : "row"}}
+        justifyContent="space-evenly"
+        alignContent={'stretch'}
+        >
+            <Grid
+            container
+            sx={{
+                width : {md : '35vw'},
+                height : '82vh',
+                border: '1px dashed green'
+            }}
+            >
+            <SidoList/>
+            </Grid>
+            <Grid
+            container
+            sx={{
+                width : {md : '52vw'},
+                height : '82vh',
+                border: '1px dashed red'
+            }}
+            >
+            <VerticalExtraContentStepper/>
+            </Grid>
+        </Stack>
     )
 }
 
