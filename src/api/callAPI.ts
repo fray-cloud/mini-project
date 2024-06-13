@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const localEndPoint = `http://localhost:8000`
-const localEndPoint = `https://fast-api-production-d255.up.railway.app/`
+const localEndPoint = `https://fast-api-production-d255.up.railway.app`
 
 
 /**
