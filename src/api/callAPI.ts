@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const localEndPoint = `http://localhost:8000`
+// const localEndPoint = `http://localhost:8000`
+const localEndPoint = `https://fast-api-production-d255.up.railway.app/`
+
 
 /**
  ** 공공데이터 포털 에러코드   
