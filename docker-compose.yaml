@@ -1,0 +1,20 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"  # 로컬 포트와 Docker 컨테이너의 포트 매핑
+
+  nginx:
+    image: nginx:latest  # 최신 버전의 Nginx 이미지 사용
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Nginx 설정 파일 마운트
+    ports:
+      - "80:80"  # 로컬 포트와 Docker 컨테이너의 포트 매핑
+    depends_on:
+      - frontend
