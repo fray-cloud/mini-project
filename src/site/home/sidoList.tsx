@@ -22,12 +22,15 @@ const SidoList = () => {
     const [openList, setOpenList] = useState(false);
 
     useEffect(() => {
-        return(() => {
-            const data = apiGET<Sido,{numOfRows? : number}>('sido', {numOfRows : 30});
+        console.log("home sido list start");
+        const data = apiGET<Sido,{numOfRows? : number}>('sido', {numOfRows : 30});
             data.then((sido) => {
-                setsidoList(sido.response.body.items.item);
+                setsidoList(sido.response.body.items.item.sort((a, b) => {
+                    return b.totalCount! - a.totalCount!
+                }));
                 setOpenList(true);
             })
+        return(() => {
             // data.then((res0) => {
             //     setsidoList(res0.response.body.items.item);
             //     res0.response.body.items.item.map((res1) => {
