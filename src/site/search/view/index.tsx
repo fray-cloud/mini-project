@@ -49,7 +49,7 @@ const CardList = () => {
                 >
                     {
                         data?.pages?.map((data, index) => (
-                            data?.response.body.items.item.map((res, idx) => {
+                            data?.response.body.items.item?.map((res, idx) => {
                                 return(
                                     <Grid
                                     key={`grid-${idx}`}
