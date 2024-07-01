@@ -13,46 +13,49 @@ import Skeleton from '@mui/material/Skeleton';
 import dayjs from "dayjs";
 
 
-interface sidoCount extends Sido{
-    count : number
-}
+// interface sidoCount extends Sido{
+//     count : number
+// }
 
 const SidoList = () => {
-    const [sidoCountList, setSidoCountList] = useState<sidoCount[]>([]);
     const [sidoList, setsidoList] = useState<Sido[]>([]);
     const [openList, setOpenList] = useState(false);
 
     useEffect(() => {
         return(() => {
             const data = apiGET<Sido,{numOfRows? : number}>('sido', {numOfRows : 30});
-            data.then((res0) => {
-                setsidoList(res0.response.body.items.item);
-                res0.response.body.items.item.map((res1) => {
-                    const data = apiGET<AbandonmentPublic,{upr_cd? : string}>('abandonmentPublic', {upr_cd : res1.orgCd});
-                    setInterval(()=>{}, 1000);
-                    data.then((res2) => {
-                        setSidoCountList((lastList) => [...lastList, {
-                            orgCd : res1.orgCd,
-                            orgdownNm : res1.orgdownNm,
-                            count : res2.response.body.totalCount?? 0,
-                        }]);
-                    }).then(() => {
-                        if (res0.response.body.items.item.at(-1) == res1) {
-                            console.log('done');
-                            setSidoCountList((lastList) => [...lastList.sort((n1, n2) => {
-                                if (n1.count > n2.count) {
-                                    return -1;
-                                }
-                                if (n1.count < n2.count){
-                                    return 1;
-                                }
-                                return 0;
-                            })])
-                            setOpenList(true);
-                        }
-                    });
-                });
+            data.then((sido) => {
+                setsidoList(sido.response.body.items.item);
+                setOpenList(true);
             })
+            // data.then((res0) => {
+            //     setsidoList(res0.response.body.items.item);
+            //     res0.response.body.items.item.map((res1) => {
+            //         const data = apiGET<AbandonmentPublic,{upr_cd? : string}>('abandonmentPublic', {upr_cd : res1.orgCd});
+            //         setInterval(()=>{}, 1000);
+            //         data.then((res2) => {
+            //             setSidoCountList((lastList) => [...lastList, {
+            //                 orgCd : res1.orgCd,
+            //                 orgdownNm : res1.orgdownNm,
+            //                 count : res2.response.body.totalCount?? 0,
+            //             }]);
+            //         }).then(() => {
+            //             if (res0.response.body.items.item.at(-1) == res1) {
+            //                 console.log('done');
+            //                 setSidoCountList((lastList) => [...lastList.sort((n1, n2) => {
+            //                     if (n1.count > n2.count) {
+            //                         return -1;
+            //                     }
+            //                     if (n1.count < n2.count){
+            //                         return 1;
+            //                     }
+            //                     return 0;
+            //                 })])
+            //                 setOpenList(true);
+            //             }
+            //         });
+            //     });
+            // })
         })
     }, []);
 
@@ -73,7 +76,7 @@ const SidoList = () => {
             >
             {
                 openList ? 
-                sidoCountList?.map((res, idx) => {
+                sidoList?.map((res, idx) => {
                     return(
                     <ListItem
                     key={idx}
@@ -88,7 +91,7 @@ const SidoList = () => {
                                 />
                             </ListItemAvatar>
                             <ListItemText primary={res.orgdownNm} />
-                            <Badge badgeContent={res.count} max={999}/>
+                            <Badge badgeContent={res.totalCount} max={999}/>
                             </ListItemButton>
                     </ListItem>
                         // <div>{res.orgdownNm} | {res.orgCd} : {res.count}</div>
