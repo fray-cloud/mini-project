@@ -58,7 +58,7 @@ const DetailView = (
                 </tr>
                 <tr>
                     <td>전화번호</td>
-                    <td colSpan={2}>{props.data?.careTel}</td>
+                    <td colSpan={2}><a href={`tel:${props.data?.careTel}`}>{props.data?.careTel}</a></td>
                 </tr>
                 <tr>
                     <td rowSpan={3}>관할처</td>
@@ -71,7 +71,7 @@ const DetailView = (
                 </tr>
                 <tr>
                     <td>연락처</td>
-                    <td colSpan={2}>{props.data?.officetel}</td>
+                    <td colSpan={2}><a href={`tel:${props.data?.officetel}`}>{props.data?.officetel}</a></td>
                 </tr>
                 <tr>
                 <td colSpan={4} style={{border : '1px', fontWeight : "bolder"}}>🔎 상세정보</td>
