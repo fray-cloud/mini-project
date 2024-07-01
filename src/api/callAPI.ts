@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const localEndPoint = `http://localhost:8000`
-const localEndPoint = `https://fast-api-production-d255.up.railway.app`
+const localEndPoint = `http://localhost:8000`
+// const localEndPoint = `https://fast-api-production-d255.up.railway.app`
 
 
 /**
@@ -49,7 +49,8 @@ export type defaultResponse<T> = {
 
 export type Sido = {
     orgCd : string, // 시도 코드
-    orgdownNm : string //시도명
+    orgdownNm : string, //시도명
+    totalCount? : number
 }
 
 export type Sigungu = {
